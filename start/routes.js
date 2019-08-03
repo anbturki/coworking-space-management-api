@@ -61,6 +61,16 @@ Route.group(() => {
     )
     .middleware(["auth"])
     .apiOnly();
+  // Bundles route
+  Route.resource("bundles", "BundleController")
+    .validator(
+      new Map([
+        [["bundles.store"], ["BundleStore"]],
+        ["bundles.update", "BundleUpdate"]
+      ])
+    )
+    .middleware(["auth"])
+    .apiOnly();
   // Auth route
   Route.post("/login", "AuthController.login").middleware("guest");
 }).prefix("api");
