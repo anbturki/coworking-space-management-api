@@ -21,9 +21,16 @@ Route.get("/", () => {
 });
 
 Route.group(() => {
-  Route.resource("staff", "StaffController").apiOnly();
+  // Staff route
+  Route.resource("staff", "StaffController")
+    .validator(new Map([[["staff.store"], ["StaffStore"]]]))
+    .middleware("auth")
+    .apiOnly();
+  // Auth route
+  Route.post("/login", "AuthController.login").middleware("guest");
 }).prefix("api");
 
+// Generate Admin Statically
 Route.get("admin/generate", async () => {
   const admin = await User.query()
     .where({ phone: "01111469466" })
