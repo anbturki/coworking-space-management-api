@@ -53,7 +53,20 @@ class StaffController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {}
+  async show({ params, request, response }) {
+    const isEx = await User.find(params.id);
+    if (!isEx) {
+      return response.status(404).json({
+        message: "User not found"
+      });
+    }
+    return (
+      (await User.query()
+        .where({ id: params.id })
+        .orderFilter(request)
+        .first()) || {}
+    );
+  }
 
   /**
    * Update staff details.
