@@ -39,7 +39,7 @@ Route.group(() => {
         ["roles.update", "RoleUpdate"]
       ])
     )
-    .middleware("auth")
+    .middleware(["auth", "acl:roles"])
     .apiOnly();
   // Auth route
   Route.post("/login", "AuthController.login").middleware("guest");
