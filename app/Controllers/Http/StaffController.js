@@ -19,7 +19,11 @@ class StaffController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index({ request }) {
+    return User.query()
+      .orderFilter(request)
+      .fetch();
+  }
 
   /**
    * Create/save a new staff.
@@ -102,7 +106,18 @@ class StaffController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response }) {
+    const user = await User.find(params.id);
+    if (!user) {
+      return response.status(404).json({
+        message: "User not found"
+      });
+    }
+    await user.delete();
+    return {
+      message: "User deleted."
+    };
+  }
 }
 
 module.exports = StaffController;
