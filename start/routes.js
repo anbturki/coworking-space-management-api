@@ -1,5 +1,5 @@
-'use strict'
-
+"use strict";
+const User = use("App/Models/User");
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -14,8 +14,33 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use("Route");
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+Route.get("/", () => {
+  return { greeting: "Hello world in JSON" };
+});
+
+Route.group(() => {
+  Route.resource("staff", "StaffController").apiOnly();
+}).prefix("api");
+
+Route.get("admin/generate", async () => {
+  const admin = await User.query()
+    .where({ phone: "01111469466" })
+    .first();
+  if (admin) {
+    return {
+      message: "The admin is already created",
+      user: admin
+    };
+  }
+  const user = await User.create({
+    name: "Ali Turki",
+    phone: "01111469466",
+    password: "password"
+  });
+  return {
+    message: "Admin created successfully.",
+    user
+  };
+});
