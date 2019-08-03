@@ -45,8 +45,18 @@ Route.group(() => {
   Route.resource("stocks", "StockController")
     .validator(
       new Map([
-        [["stocks.store"], ["StockStore"]],
+        [["stocks.store"], ["StockCategoryController"]],
         ["stocks.update", "StockUpdate"]
+      ])
+    )
+    .middleware(["auth"])
+    .apiOnly();
+  // Stock Category route
+  Route.resource("stockCategories", "StockCategoryController")
+    .validator(
+      new Map([
+        [["stockCategories.store"], ["StockCategoryStore"]],
+        ["stockCategories.update", "StockCategoryUpdate"]
       ])
     )
     .middleware(["auth"])

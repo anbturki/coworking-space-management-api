@@ -21,6 +21,10 @@ class Stock extends Model {
     super.boot();
     this.addTrait("QueryFilter");
   }
+
+  category() {
+    return this.belongsTo("App/Models/StockCategory", "category_id");
+  }
 }
 
 module.exports = Stock;
