@@ -1,0 +1,16 @@
+{
+  "staff": [
+    "create",
+    "update",
+    "destroy",
+    "index",
+    "show"
+  ],
+  "roles": [
+    "create",
+    "update",
+    "destroy",
+    "index",
+    "show"
+  ]
+}

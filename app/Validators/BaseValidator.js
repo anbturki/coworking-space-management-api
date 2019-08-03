@@ -19,7 +19,8 @@ class BaseValidator {
       integer: "The {{field}} must be an integer.",
       number: "The {{field}} must be a number.",
       exists: "The {{field}} is not exists in the {{argument.0}} table.",
-      phone: "The {{field}} is not valid {{argument.0}} phone number."
+      phone: "The {{field}} is not valid {{argument.0}} phone number.",
+      json: "The {{field}} field should be valid JSON string."
     };
   }
 }

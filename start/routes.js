@@ -31,6 +31,16 @@ Route.group(() => {
     )
     .middleware("auth")
     .apiOnly();
+  // Roles route
+  Route.resource("roles", "RoleController")
+    .validator(
+      new Map([
+        [["roles.store"], ["RoleStore"]],
+        ["roles.update", "RoleUpdate"]
+      ])
+    )
+    .middleware("auth")
+    .apiOnly();
   // Auth route
   Route.post("/login", "AuthController.login").middleware("guest");
 }).prefix("api");
