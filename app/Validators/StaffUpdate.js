@@ -21,7 +21,6 @@ class StaffUpdate extends BaseValidator {
     if (isEx) {
       rules.phone += ",required";
     }
-    console.log(rules);
     return rules;
   }
 }

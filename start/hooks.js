@@ -42,5 +42,4 @@ hooks.after.providersBooted(() => {
 
   Validator.extend("exists", existsFn);
   Validator.extend("phone", phoneFn);
-  // Database.on("query", console.log);
 });
