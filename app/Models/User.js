@@ -40,6 +40,12 @@ class User extends Model {
   tokens() {
     return this.hasMany("App/Models/Token");
   }
+  createdBy() {
+    return this.belongsTo("App/Models/User", "created_by", "id");
+  }
+  role() {
+    return this.belongsTo("App/Models/Role");
+  }
 }
 
 module.exports = User;
