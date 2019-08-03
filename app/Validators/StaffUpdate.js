@@ -18,7 +18,7 @@ class StaffUpdate extends BaseValidator {
     if (!isEx("password")) {
       delete rules.password;
     }
-    if (isEx) {
+    if (isEx("phne")) {
       rules.phone += ",required";
     }
     return rules;
