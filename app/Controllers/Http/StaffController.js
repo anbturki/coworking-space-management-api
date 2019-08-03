@@ -76,7 +76,23 @@ class StaffController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params, request, response }) {
+    const user = await User.find(params.id);
+    if (!user) {
+      return response.status(404).json({
+        message: "User not found"
+      });
+    }
+    const data = request.post();
+    // Get the fields from model filter and pass it the model instance
+    User.filters.forEach(key => {
+      if (Object.keys(request.only(key)).length) {
+        user[key] = data[key];
+      }
+    });
+    await user.save();
+    return user;
+  }
 
   /**
    * Delete a staff with id.

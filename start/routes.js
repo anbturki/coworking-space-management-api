@@ -23,7 +23,12 @@ Route.get("/", () => {
 Route.group(() => {
   // Staff route
   Route.resource("staff", "StaffController")
-    .validator(new Map([[["staff.store"], ["StaffStore"]]]))
+    .validator(
+      new Map([
+        [["staff.store"], ["StaffStore"]],
+        ["staff.update", "StaffUpdate"]
+      ])
+    )
     .middleware("auth")
     .apiOnly();
   // Auth route
