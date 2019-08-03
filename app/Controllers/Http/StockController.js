@@ -3,14 +3,14 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Role = use("App/Models/Role");
+const Stock = use("App/Models/Stock");
 /**
- * Resourceful controller for interacting with roles
+ * Resourceful controller for interacting with stocks
  */
-class RoleController {
+class StockController {
   /**
-   * Show a list of all roles.
-   * GET roles
+   * Show a list of all stocks.
+   * GET stocks
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -18,14 +18,13 @@ class RoleController {
    * @param {View} ctx.view
    */
   async index({ request }) {
-    return User.query()
+    return Stock.query()
       .orderFilter(request)
       .fetch();
   }
-
   /**
-   * Create/save a new role.
-   * POST roles
+   * Create/save a new stock.
+   * POST stocks
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -33,22 +32,21 @@ class RoleController {
    */
   async store({ request, auth }) {
     const authUser = await auth.getUser();
-    const role = new Role();
+    const stock = new Stock();
     const data = request.post();
     // Get the fields from model filter and pass it the model instance
-    Role.filters.forEach(key => {
+    Stock.filters.forEach(key => {
       if (Object.keys(request.only(key)).length) {
-        role[key] = data[key];
+        stock[key] = data[key];
       }
     });
-    role.created_by = authUser.id;
-    await role.save();
-    return role;
+    stock.created_by = authUser.id;
+    await stock.save();
+    return stock;
   }
-
   /**
-   * Display a single role.
-   * GET roles/:id
+   * Display a single stock.
+   * GET stocks/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -56,66 +54,64 @@ class RoleController {
    * @param {View} ctx.view
    */
   async show({ params, request, response }) {
-    const isEx = await Role.find(params.id);
+    const isEx = await Stock.find(params.id);
     if (!isEx) {
       return response.status(404).json({
-        message: "Role not found"
+        message: "Item not found"
       });
     }
     return (
-      (await Role.query()
+      (await Stock.query()
         .where({ id: params.id })
         .orderFilter(request)
         .first()) || {}
     );
   }
-
   /**
-   * Update role details.
-   * PUT or PATCH roles/:id
+   * Update stock details.
+   * PUT or PATCH stocks/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    const role = await Role.find(params.id);
-    if (!role) {
+    const stock = await Stock.find(params.id);
+    if (!stock) {
       return response.status(404).json({
-        message: "Role not found"
+        message: "item not found"
       });
     }
     const data = request.post();
     // Get the fields from model filter and pass it the model instance
-    Role.filters.forEach(key => {
+    Stock.filters.forEach(key => {
       if (Object.keys(request.only(key)).length) {
-        role[key] = data[key];
+        stock[key] = data[key];
       }
     });
-    await role.save();
-    return role;
+    await stock.save();
+    return stock;
   }
-
   /**
-   * Delete a role with id.
-   * DELETE roles/:id
+   * Delete a stock with id.
+   * DELETE stocks/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    const role = await Role.find(params.id);
-    if (!role) {
+    const stock = await Stock.find(params.id);
+    if (!stock) {
       return response.status(404).json({
-        message: "Role not found"
+        message: "item not found"
       });
     }
-    await role.delete();
+    await stock.delete();
     return {
-      message: "Role deleted."
+      message: "stock deleted."
     };
   }
 }
 
-module.exports = RoleController;
+module.exports = StockController;

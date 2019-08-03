@@ -41,6 +41,16 @@ Route.group(() => {
     )
     .middleware(["auth", "acl:roles"])
     .apiOnly();
+  // Stock route
+  Route.resource("stocks", "StockController")
+    .validator(
+      new Map([
+        [["stocks.store"], ["StockStore"]],
+        ["stocks.update", "StockUpdate"]
+      ])
+    )
+    .middleware(["auth"])
+    .apiOnly();
   // Auth route
   Route.post("/login", "AuthController.login").middleware("guest");
 }).prefix("api");
