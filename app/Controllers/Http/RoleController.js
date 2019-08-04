@@ -18,7 +18,7 @@ class RoleController {
    * @param {View} ctx.view
    */
   async index({ request }) {
-    return User.query()
+    return Role.query()
       .orderFilter(request)
       .fetch();
   }
