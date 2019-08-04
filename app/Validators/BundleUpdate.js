@@ -12,8 +12,7 @@ class BundleUpdate extends BaseValidator {
       co_working_hours: "number",
       meeting_hours: "number",
       price: "number",
-      type: "in:SHARED_SPACE,ROOM",
-      active: "boolean"
+      type: "in:SHARED_SPACE,ROOM"
     };
 
     if (isEx("name")) {

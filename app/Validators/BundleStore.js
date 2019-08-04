@@ -8,8 +8,7 @@ class BundleStore extends BaseValidator {
       co_working_hours: "number|requiredWithoutAny:meeting_hours",
       meeting_hours: "number|requiredWithoutAny:co_working_hours",
       price: "number|required",
-      type: "required|in:SHARED_SPACE,ROOM",
-      active: "boolean"
+      type: "required|in:SHARED_SPACE,ROOM"
     };
   }
   get sanitizationRules() {
