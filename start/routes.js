@@ -17,7 +17,7 @@ const User = use("App/Models/User");
 const Route = use("Route");
 
 Route.get("/", () => {
-  return { greeting: "Hello world in JSON" };
+  return { greeting: "@dastack2" };
 });
 
 Route.group(() => {
@@ -29,7 +29,6 @@ Route.group(() => {
         ["staff.update", "StaffUpdate"]
       ])
     )
-    .middleware("auth")
     .apiOnly();
   // Roles route
   Route.resource("roles", "RoleController")
@@ -39,7 +38,6 @@ Route.group(() => {
         ["roles.update", "RoleUpdate"]
       ])
     )
-    .middleware(["auth", "acl:roles"])
     .apiOnly();
   // Stock route
   Route.resource("stocks", "StockController")
@@ -49,7 +47,6 @@ Route.group(() => {
         ["stocks.update", "StockUpdate"]
       ])
     )
-    .middleware(["auth"])
     .apiOnly();
   // Stock Category route
   Route.resource("stockCategories", "StockCategoryController")
@@ -59,7 +56,6 @@ Route.group(() => {
         ["stockCategories.update", "StockCategoryUpdate"]
       ])
     )
-    .middleware(["auth"])
     .apiOnly();
   // Bundles route
   Route.resource("bundles", "BundleController")
@@ -69,7 +65,6 @@ Route.group(() => {
         ["bundles.update", "BundleUpdate"]
       ])
     )
-    .middleware(["auth"])
     .apiOnly();
   // Bundles route
   Route.resource("locations", "LocationController")
@@ -79,11 +74,21 @@ Route.group(() => {
         ["locations.update", "LocationUpdate"]
       ])
     )
-    .middleware(["auth"])
     .apiOnly();
+  // work days route
+  Route.resource("workdays", "WorkDayController").apiOnly();
+  Route.post("workdays/open", "WorkDayController.openDay").middleware(
+    "acl:workdays,openDay"
+  );
+  Route.post("workdays/close/:id", "WorkDayController.closeDay").middleware(
+    "acl:workdays,closeday"
+  );
   // Auth route
-  Route.post("/login", "AuthController.login").middleware("guest");
-}).prefix("api");
+})
+  .prefix("api")
+  .middleware("auth");
+// Auth route
+Route.post("api/login", "AuthController.login").middleware("guest");
 
 // Generate Admin Statically
 Route.get("admin/generate", async () => {

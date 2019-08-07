@@ -1,0 +1,16 @@
+When open a day.
+/Open
+- check if the there are days open, if yes, return 400 error and tell the user there is a opend day.
+-- if there is no opened day.
+--- Open the day.
+---- On close 
+------- Check if there are sessons, reurn 400 and let the user that he should close the opened sessions first.
+-------- if there no sessions
+------------- get all stock and store the closed qty.
+------------- close the day.
+
+
+Open new sesson.
+
+
+/Close
