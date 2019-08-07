@@ -43,7 +43,7 @@ Route.group(() => {
   Route.resource("stocks", "StockController")
     .validator(
       new Map([
-        [["stocks.store"], ["StockCategoryController"]],
+        [["stocks.store"], ["StockStore"]],
         ["stocks.update", "StockUpdate"]
       ])
     )
@@ -81,6 +81,15 @@ Route.group(() => {
       new Map([
         [["sessions.store"], ["SessionStore"]],
         [["sessions.update"], ["SessionUpdate"]]
+      ])
+    )
+    .apiOnly();
+  // Orders
+  Route.resource("orders", "OrderController")
+    .validator(
+      new Map([
+        [["orders.store"], ["OrderStore"]],
+        [["orders.update"], ["OrderUpdate"]]
       ])
     )
     .apiOnly();
