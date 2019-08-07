@@ -75,6 +75,15 @@ Route.group(() => {
       ])
     )
     .apiOnly();
+  // Sessions
+  Route.resource("sessions", "SessionController")
+    .validator(
+      new Map([
+        [["sessions.store"], ["SessionStore"]],
+        [["sessions.update"], ["SessionUpdate"]]
+      ])
+    )
+    .apiOnly();
   // work days route
   Route.resource("workdays", "WorkDayController").apiOnly();
   Route.post("workdays/open", "WorkDayController.openDay").middleware(
