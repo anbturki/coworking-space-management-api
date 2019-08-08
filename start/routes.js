@@ -48,6 +48,8 @@ Route.group(() => {
       ])
     )
     .apiOnly();
+  // StockByDay route
+  Route.resource("stockbydays", "StockByDayController").only(["show", "index"]);
   // Stock Category route
   Route.resource("stockCategories", "StockCategoryController")
     .validator(

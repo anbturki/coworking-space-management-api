@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const WorkDay = use("App/Models/WorkDay");
+const StockByDay = use("App/Models/StockByDay");
 const Database = use("Database");
 /**
  * Resourceful controller for interacting with workdays
@@ -137,6 +138,14 @@ class WorkDayController {
     const workDay = new WorkDay();
     workDay.opened_by = user.id;
     await workDay.save();
+    const stock = await Database.select(
+      "in_stock as open_qty",
+      "id as item_id"
+    ).from("stocks");
+    stock.forEach(model => {
+      model["work_day_id"] = workDay.id;
+    });
+    await StockByDay.createMany(stock);
     return workDay;
   }
   /**
@@ -154,6 +163,26 @@ class WorkDayController {
         message: "there is no opened day for that id"
       });
     }
+    // Save close day stock
+    const stock = await Database.select("in_stock as close_qty").from("stocks");
+    // Update close day quantity in Transaction to safe update
+    const trx = await Database.beginTransaction();
+    const queries = [];
+    stock.forEach(item => {
+      const query = StockByDay.query()
+        .where({ work_day_id: params.id })
+        .update(item)
+        .transacting(trx);
+      queries.push(query);
+    });
+    try {
+      const res = await Promise.all(queries);
+      trx.commit();
+    } catch (error) {
+      trx.rollback();
+    }
+
+    // Get authenticated user
     const user = await auth.getUser();
     day.status = "CLOSED";
     day.closed_by = user.id;
