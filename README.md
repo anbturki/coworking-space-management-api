@@ -1,5 +1,11 @@
 # Adonis API application
 
+| Route      | Verb(s)  | Roles                             | Description                  | Model                  | Response Example          |        |
+| ---------- | -------- | --------------------------------- | ---------------------------- | ---------------------- | ------------------------- | ------ |
+| /api/staff | HEAD,GET | { staff: ["create", "fetchAll"] } | Add a new user of staff type | User { name: "required | string"; phone: "required | unique | phone:EGP"; } |  |  |
+|            |          |                                   |                              |                        |                           |        |
+|            |          |                                   |                              |                        |                           |        |
+
 This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
 
 1. Bodyparser
@@ -17,7 +23,6 @@ adonis new yardstick --api-only
 ```
 
 or manually clone the repo and then run `npm install`.
-
 
 ### Migrations
 
