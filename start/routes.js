@@ -86,6 +86,7 @@ Route.group(() => {
       ])
     )
     .apiOnly();
+  Route.get("checkout/:sessionId", "SessionController.checkout");
   // Orders
   Route.resource("orders", "OrderController")
     .validator(
