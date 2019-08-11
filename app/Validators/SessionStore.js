@@ -7,7 +7,7 @@ class SessionStore extends BaseValidator {
       checked_in_at: "date",
       code: "required",
       type: "required|in:SHARED_SPACE,ROOM",
-      bundle_id: "required|exists:bundles,id",
+      bundle_id: "required_when:type,ROOM|exists:bundles,id",
       location_id: "required|exists:locations,id"
     };
   }
