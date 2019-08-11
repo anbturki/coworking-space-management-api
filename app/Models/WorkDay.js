@@ -14,6 +14,9 @@ class WorkDay extends Model {
   static get dates() {
     return super.dates.concat(["opened_at", "closed_at"]);
   }
+  sessions() {
+    return this.hasMany("App/Models/Session", "id", "work_day");
+  }
 }
 
 module.exports = WorkDay;
