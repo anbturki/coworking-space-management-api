@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const Session = use("App/Models/Session");
+const Bundle = use("App/Models/Bundle");
 const WorkDay = use("App/Models/WorkDay");
 /**
  * Resourceful controller for interacting with sessions
@@ -36,6 +37,15 @@ class SessionController {
     const authUser = await auth.getUser();
     const session = new Session();
     const data = request.post();
+    // Check  if the session code has token by active session
+    const isActiveSession = await Session.query()
+      .where({ status: "ACTIVE", code: data.code })
+      .first();
+    if (isActiveSession) {
+      return response.status(400).json({
+        message: "this code is already taken."
+      });
+    }
     const workDay = await WorkDay.find(data.work_day);
     if (workDay.status === "CLOSED") {
       return response.status(400).json({
@@ -120,6 +130,19 @@ class SessionController {
     return {
       message: "Session deleted."
     };
+  }
+
+  async checkout({ params }) {
+    const session = await Session.find(params.sessionId);
+    if (!session) {
+      return response.status(404).json({
+        message: "Session not found"
+      });
+    } else if (session.status !== "ACTIVE") {
+      return response.status(400).json({
+        message: "Session is not active"
+      });
+    }
   }
 }
 
