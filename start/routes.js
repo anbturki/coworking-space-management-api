@@ -21,6 +21,7 @@ Route.get("/", () => {
 });
 
 Route.group(() => {
+  Route.post("auth/userinfo", "AuthController.loggedUserInfo");
   // Staff route
   Route.resource("staff", "StaffController")
     .validator(
