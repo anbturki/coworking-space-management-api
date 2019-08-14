@@ -11,6 +11,12 @@ class Role extends Model {
     super.boot();
     this.addTrait("QueryFilter");
   }
+
+  getPermissions(permissions) {
+    try {
+      return JSON.parse(permissions);
+    } catch (error) {}
+  }
 }
 
 module.exports = Role;
