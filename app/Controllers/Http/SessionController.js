@@ -132,7 +132,7 @@ class SessionController {
     };
   }
 
-  async checkout({ params }) {
+  async checkout({ params, auth }) {
     const session = await Session.find(params.sessionId);
     if (!session) {
       return response.status(404).json({
@@ -143,6 +143,19 @@ class SessionController {
         message: "Session is not active"
       });
     }
+    const orders = await session.orders().fetch();
+    const user = await auth.getUser();
+    let ordersCost = 0;
+    orders.toJSON().forEach(order => {
+      ordersCost += order.item_price * order.qty;
+    });
+    console.log(session.stayed_hours);
+    session.checked_out_at = new Date();
+    session.status = "CLOSED";
+    session.checked_out_by = user.id;
+    session.orders_cost = ordersCost;
+    await session.save();
+    return session;
   }
 }
 
