@@ -51,6 +51,9 @@ class Session extends Model {
   bundle() {
     return this.belongsTo("App/Models/Bundle");
   }
+  orders() {
+    return this.hasMany("App/Models/Order");
+  }
   static async getSessionBundle(session) {
     // Stayed hours (Diff between now and checked_in_at)
     const hours = Session.calculateDuration(session.checked_in_at);
