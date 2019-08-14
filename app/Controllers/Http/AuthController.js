@@ -1,6 +1,11 @@
 "use strict";
 const User = use("App/Models/User");
 class AuthController {
+  async loggedUserInfo({ auth }) {
+    const user = auth.user;
+    user.role = await user.role().fetch();
+    return user;
+  }
   async login({ request, auth, response }) {
     const { phone, password } = request.post();
     const user = await User.query()
