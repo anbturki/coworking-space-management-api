@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const Role = use("App/Models/Role");
+const permissionsFile = use("App/permissions.data");
 /**
  * Resourceful controller for interacting with roles
  */
@@ -115,6 +116,9 @@ class RoleController {
     return {
       message: "Role deleted."
     };
+  }
+  async getPermissions({ response }) {
+    return response.json(permissionsFile);
   }
 }
 

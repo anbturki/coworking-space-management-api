@@ -8,6 +8,7 @@ class Stock extends Model {
     return [
       "id",
       "item",
+      "active",
       "in_stock",
       "in_inventory",
       "created_by",

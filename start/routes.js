@@ -31,6 +31,8 @@ Route.group(() => {
       ])
     )
     .apiOnly();
+  // fetch permissons
+  Route.get("roles/permissions", "RoleController.getPermissions");
   // Roles route
   Route.resource("roles", "RoleController")
     .validator(
