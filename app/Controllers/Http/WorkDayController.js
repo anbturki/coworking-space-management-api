@@ -190,6 +190,13 @@ class WorkDayController {
     await day.save();
     return day;
   }
+
+  async getActiveDay() {
+    const day = await WorkDay.query()
+      .where({ status: "WORKING" })
+      .first();
+    return day || null;
+  }
 }
 
 module.exports = WorkDayController;
