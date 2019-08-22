@@ -81,6 +81,7 @@ Route.group(() => {
     )
     .apiOnly();
   // Sessions
+  Route.post("sessions/checkout/:sessionId", "SessionController.checkout");
   Route.resource("sessions", "SessionController")
     .validator(
       new Map([
@@ -89,7 +90,6 @@ Route.group(() => {
       ])
     )
     .apiOnly();
-  Route.get("checkout/:sessionId", "SessionController.checkout");
   // Orders
   Route.resource("orders", "OrderController")
     .validator(
@@ -100,13 +100,10 @@ Route.group(() => {
     )
     .apiOnly();
   // work days route
+  Route.get("workdays/getActiveDay", "WorkDayController.getActiveDay");
   Route.resource("workdays", "WorkDayController").apiOnly();
-  Route.post("workdays/open", "WorkDayController.openDay").middleware(
-    "acl:workdays,openDay"
-  );
-  Route.post("workdays/close/:id", "WorkDayController.closeDay").middleware(
-    "acl:workdays,closeday"
-  );
+  Route.post("workdays/open", "WorkDayController.openDay");
+  Route.post("workdays/close/:id", "WorkDayController.closeDay");
   // Auth route
 })
   .prefix("api")
