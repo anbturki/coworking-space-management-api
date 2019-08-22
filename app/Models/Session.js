@@ -51,6 +51,9 @@ class Session extends Model {
   bundle() {
     return this.belongsTo("App/Models/Bundle");
   }
+  location() {
+    return this.belongsTo("App/Models/Location");
+  }
   orders() {
     return this.hasMany("App/Models/Order");
   }
