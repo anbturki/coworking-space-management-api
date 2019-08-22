@@ -100,7 +100,7 @@ class Session extends Model {
     const startTime = moment(time);
     const endTime = moment(new Date());
     const duration = moment.duration(endTime.diff(startTime));
-    const hours = Math.floor(duration.asHours());
+    const hours = Math.round(duration.asHours());
     return hours;
   }
 }
