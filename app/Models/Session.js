@@ -54,6 +54,9 @@ class Session extends Model {
   location() {
     return this.belongsTo("App/Models/Location");
   }
+  checkedInBy() {
+    return this.belongsTo("App/Models/User", "checked_in_by", "id");
+  }
   orders() {
     return this.hasMany("App/Models/Order");
   }
