@@ -4,6 +4,7 @@ class StockStore extends BaseValidator {
   get rules() {
     return {
       item: "required|string|unique:stocks,item",
+      category_id: "required|exists:stock_categories,id",
       in_stock: "number",
       in_inventory: "number",
       buy_unit_price: "number",
