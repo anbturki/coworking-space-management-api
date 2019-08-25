@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const WorkDay = use("App/Models/WorkDay");
+const Session = use("App/Models/Session");
 const StockByDay = use("App/Models/StockByDay");
 const Database = use("Database");
 /**
@@ -161,6 +162,20 @@ class WorkDayController {
     if (!day || day.status === "CLOSED") {
       return response.status(400).json({
         message: "there is no opened day for that id"
+      });
+    }
+    let activeSessions = await Session.query()
+      .where("work_day", params.id)
+      .where("status", "OPEN")
+      .fetch();
+    activeSessions = activeSessions.toJSON();
+    if (activeSessions && activeSessions.length) {
+      return response.status(400).json({
+        message: `You have ${activeSessions.length} opened session${
+          activeSessions.length > 1 ? "s" : ""
+        }, please close ${
+          activeSessions.length > 1 ? "them" : "it"
+        } first and try again.`
       });
     }
     // Save close day stock
