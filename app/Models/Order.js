@@ -22,6 +22,9 @@ class Order extends Model {
     super.boot();
     this.addTrait("QueryFilter");
   }
+  addedBy() {
+    return this.belongsTo("App/Models/User", "created_by", "id");
+  }
 }
 
 module.exports = Order;
