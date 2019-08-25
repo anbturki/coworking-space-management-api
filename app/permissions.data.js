@@ -29,5 +29,13 @@ module.exports = {
   bundles: {
     appearance: [...defaultAppearance],
     values: [...defaultValues]
+  },
+  locations: {
+    appearance: [...defaultAppearance],
+    values: [...defaultValues]
+  },
+  stock: {
+    appearance: [...defaultAppearance],
+    values: [...defaultValues]
   }
 };
