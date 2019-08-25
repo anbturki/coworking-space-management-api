@@ -141,7 +141,8 @@ class WorkDayController {
     await workDay.save();
     const stock = await Database.select(
       "in_stock as open_qty",
-      "id as item_id"
+      "id as item_id",
+      "in_inventory as open_inventory_qty"
     ).from("stocks");
     stock.forEach(model => {
       model["work_day_id"] = workDay.id;
@@ -166,7 +167,7 @@ class WorkDayController {
     }
     let activeSessions = await Session.query()
       .where("work_day", params.id)
-      .where("status", "OPEN")
+      .where("status", "ACTIVE")
       .fetch();
     activeSessions = activeSessions.toJSON();
     if (activeSessions && activeSessions.length) {
@@ -179,19 +180,26 @@ class WorkDayController {
       });
     }
     // Save close day stock
-    const stock = await Database.select("in_stock as close_qty").from("stocks");
+    const stock = await Database.select(
+      "in_stock as close_qty",
+      "in_inventory as close_inventory_qty",
+      "id"
+    ).from("stocks");
     // Update close day quantity in Transaction to safe update
     const trx = await Database.beginTransaction();
     const queries = [];
     stock.forEach(item => {
+      const data = { ...item };
+      delete data.id;
       const query = StockByDay.query()
-        .where({ work_day_id: params.id })
-        .update(item)
+        .where("item_id", item.id)
+        .update(data)
         .transacting(trx);
       queries.push(query);
     });
     try {
       const res = await Promise.all(queries);
+      console.log(res);
       trx.commit();
     } catch (error) {
       trx.rollback();
