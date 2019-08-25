@@ -1,5 +1,29 @@
 "use strict";
 /** @type {import('@adonisjs/framework/src/Hash')} */
+
+/*
+{
+  "include":["addedBy", {
+    relation: "stock",
+    scope: {
+      "include": "category"
+    }
+  }],
+  or: [
+    where: {
+      id: {
+        nin: [],
+        eq: "",
+        gt: ""
+      }
+    }
+  ]
+  and: 
+  where: {
+    active: 1
+  }
+}
+*/
 class QueryFilter {
   static get operators() {
     return ["or", "and"];
