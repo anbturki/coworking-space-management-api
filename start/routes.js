@@ -80,6 +80,8 @@ Route.group(() => {
       ])
     )
     .apiOnly();
+  // Expenses route
+  Route.resource("expenses", "ExpenseController").apiOnly();
   // Sessions
   Route.post("sessions/checkout/:sessionId", "SessionController.checkout");
   Route.resource("sessions", "SessionController")
@@ -96,6 +98,24 @@ Route.group(() => {
       new Map([
         [["orders.store"], ["OrderStore"]],
         [["orders.update"], ["OrderUpdate"]]
+      ])
+    )
+    .apiOnly();
+  // Expnese Categories
+  Route.resource("expnesecategories", "ExpenseCategoryController")
+    .validator(
+      new Map([
+        [["expnesecategories.store"], ["ExpenseCategoryStore"]],
+        [["expnesecategories.update"], ["ExpenseCategoryUpdate"]]
+      ])
+    )
+    .apiOnly();
+  // Expense
+  Route.resource("expenses", "ExpenseController")
+    .validator(
+      new Map([
+        [["expenses.store"], ["ExpenseStore"]],
+        [["expenses.update"], ["ExpenseUpdate"]]
       ])
     )
     .apiOnly();
