@@ -7,7 +7,7 @@ const ExpenseCategory = use("App/Models/ExpenseCategory");
 /**
  * Resourceful controller for interacting with expnesecategories
  */
-class ExpneseCategoryController {
+class ExpenseCategoryController {
   /**
    * Show a list of all expnesecategories.
    * GET expnesecategories
@@ -31,7 +31,7 @@ class ExpneseCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({ request, auth }) {
     const authUser = await auth.getUser();
     const category = new ExpenseCategory();
     const data = request.post();
@@ -121,4 +121,4 @@ class ExpneseCategoryController {
   }
 }
 
-module.exports = ExpneseCategoryController;
+module.exports = ExpenseCategoryController;

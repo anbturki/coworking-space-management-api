@@ -17,7 +17,7 @@ class ExpenseController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ request }) {
     return Expense.query()
       .orderFilter(request)
       .fetch();
@@ -31,7 +31,7 @@ class ExpenseController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({ request, auth }) {
     const authUser = await auth.getUser();
     const expense = new Expense();
     const data = request.post();
@@ -55,7 +55,7 @@ class ExpenseController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {
+  async show({ params, request, response }) {
     const isEx = await Expense.find(params.id);
     if (!isEx) {
       return response.status(404).json({

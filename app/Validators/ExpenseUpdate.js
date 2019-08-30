@@ -19,7 +19,8 @@ class ExpenseUpdate extends BaseValidator {
       } else if (isEx(field) && ["stock_id", "qty"].includes(field)) {
         rules[field] += "|requiredWhen:type,STOCK";
       } else if (isEx(field) && field === "category_id") {
-        rules.category_id = "requiredWhen:type,EXPENSES";
+        rules.category_id =
+          "requiredWhen:type,EXPENSES|exists:expense_categories,id";
       }
     });
     return rules;

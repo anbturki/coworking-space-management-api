@@ -16,6 +16,20 @@ class Expense extends Model {
       "comment"
     ];
   }
+  static boot() {
+    super.boot();
+    this.addTrait("QueryFilter");
+  }
+
+  category() {
+    return this.belongsTo("App/Models/ExpenseCategory", "category_id");
+  }
+  stock() {
+    return this.belongsTo("App/Models/Stock");
+  }
+  createdBy() {
+    return this.belongsTo("App/Models/User", "created_by", "id");
+  }
 }
 
 module.exports = Expense;
